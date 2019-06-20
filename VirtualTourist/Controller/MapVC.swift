@@ -52,12 +52,10 @@ class MapVC: UIViewController {
         if sender.state == .began {
             let point = sender.location(in: mapView)
             let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-            
             let pin = Pin(context: dataController.viewContext)
             pin.latitude = coordinate.latitude
             pin.longitude = coordinate.longitude
             try? dataController.viewContext.save()
-            
             mapView.addAnnotation(pin)
         }
     }

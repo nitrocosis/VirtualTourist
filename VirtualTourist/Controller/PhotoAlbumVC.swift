@@ -38,9 +38,6 @@ class PhotoAlbumVC: UIViewController {
                 newCollectionButton.isEnabled = true
                 collectionView.backgroundView = nil
                 
-                if (pin.photo != nil) {
-                    pin.removeFromPhoto(pin.photo!)
-                }
                 for resultPhoto in resultPhotos {
                     let photo = Photo(context: dataController.viewContext)
                     photo.url = resultPhoto.url()
@@ -154,6 +151,13 @@ class PhotoAlbumVC: UIViewController {
     }
     
     @IBAction func newCollection(_ sender: Any) {
+        if (pin.photo != nil) {
+            for photo in pin.photo! {
+                pin.removeFromPhoto(photo as! Photo)
+                dataController.viewContext.delete(photo as! Photo)
+            }
+        }
+        
         pin.page += 1
         if (pin.page > pin.maxPage) {
             pin.page = 1
@@ -170,6 +174,7 @@ class PhotoAlbumVC: UIViewController {
     private func removePhoto(_ index: Int) {
         let photo = pin.photo?.allObjects[index] as! Photo
         pin.removeFromPhoto(photo)
+        dataController.viewContext.delete(photo)
         try? dataController.viewContext.save()
     }
     
