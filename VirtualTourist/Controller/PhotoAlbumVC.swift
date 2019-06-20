@@ -23,7 +23,7 @@ class PhotoAlbumVC: UIViewController {
     
     var state = CollectionViewState.loading {
         didSet {
-             pin.photo = NSSet()
+            pin.photo = NSSet()
             
             switch state {
             case .loading:
